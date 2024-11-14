@@ -5,7 +5,7 @@ service vnc
 	protocol	= tcp
 	wait		= no
 	user		= root
-	server		= /home/d-ogaw25/scripts/dummy.sh
+	server		= /home/dsm/scripts/dummy.sh
 	port		= 5900
 	per_source	= 1
 	instances	= 10
