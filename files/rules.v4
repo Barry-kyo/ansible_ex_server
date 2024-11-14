@@ -1,0 +1,68 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+
+# Allow loopback interface (lo)
+-A INPUT -i lo -j ACCEPT
+
+# Allow established and related connections
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allow ftp (port 21)
+-A INPUT -p tcp --dport 21 -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+-A INPUT -p tcp --dport 21 -j ACCEPT
+
+# Allow ssh (port 22)
+-A INPUT -p tcp --dport 22 -s 133.16.241.80/28 -j ACCEPT
+
+
+# Allow telnet (port 23)
+-A INPUT -p tcp --dport 23 -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+-A INPUT -p tcp --dport 23 -j ACCEPT
+
+
+# Allow telnet (port 80)
+-A INPUT -p tcp --dport 80 -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+-A INPUT -p tcp --dport 80 -j ACCEPT
+
+
+# Allow Microsoft-DS (port 445)
+-A INPUT -p tcp --dport 445 -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+-A INPUT -p tcp --dport 445 -j ACCEPT
+
+
+# Allow MSSQL-server (port 1433)
+-A INPUT -p tcp --dport 1433 -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+-A INPUT -p tcp --dport 1433 -j ACCEPT
+
+
+# Allow MySQL (port 3306)
+
+-A INPUT -p tcp --dport 3306 -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+-A INPUT -p tcp --dport 3306 -j ACCEPT
+
+
+# Allow Windows wbt server (port 3389)
+
+-A INPUT -p tcp --dport 3389 -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+-A INPUT -p tcp --dport 3389 -j ACCEPT
+
+
+# Allow VNC remote desktop  (port 5900)
+
+-A INPUT -p tcp --dport 5900 -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+-A INPUT -p tcp --dport 5900 -j ACCEPT
+
+
+#  Log allowed packets
+# -A INPUT -j LOG --log-prefix "[iptables-ACCEPT:] " --log-level 4
+
+# Log dropped packets
+-A INPUT -j LOG --log-prefix "[iptables-DROP:] " --log-level 4
+-A INPUT -j DROP
+
+COMMIT
+
+
+

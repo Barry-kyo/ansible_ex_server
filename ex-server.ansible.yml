@@ -1,0 +1,81 @@
+---
+- name: Setting Xinetd and iptables
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Install Xinetd
+      ansible.builtin.apt:
+        name: xinetd
+        state: present
+
+    - name: Copy Setting Files
+      ansible.builtin.copy:
+        src: ./files/xinetd.conf
+        dest: /etc/xinetd.conf
+        owner: d-ogaw25
+        group: d-ogaw25
+        mode: '0644'
+
+    - name: Copy Script file
+      ansible.builtin.copy:
+        src: ./files/scripts
+        dest: /home/d-ogaw25
+        owner: d-ogaw25
+        group: d-ogaw25
+        mode: '0774'
+        directory_mode: "1644"
+
+    - name: Copy Xinetd setting directory
+      ansible.builtin.copy:
+        src: ./files/xinetd.d
+        dest: /etc/
+        owner: d-ogaw25
+        group: d-ogaw25
+        mode: '1644'
+
+    - name: Install iptables
+      ansible.builtin.apt:
+        name: iptables
+        state: present
+
+    - name: Install iptables-persistent
+      ansible.builtin.apt:
+        name: iptables-persistent
+        state: present
+
+    - name: Copy iptables setting file
+      ansible.builtin.copy:
+        src: ./files/rules.v4
+        dest: /etc/iptables/rules.v4
+        owner: d-ogaw25
+        group: d-ogaw25
+        mode: '0644'
+
+    - name: Copy ip6tables setting file
+      ansible.builtin.copy:
+        src: ./files/rules.v6
+        dest: /etc/iptables/rules.v6
+        owner: d-ogaw25
+        group: d-ogaw25
+        mode: '0644'
+
+    - name: Add dummy service
+      lineinfile:
+        line: vnc 5900/tcp
+        path: /etc/services
+
+    - name: Start Xinetd
+      ansible.builtin.systemd_service:
+        name: xinetd
+        state: started
+
+    - name: Start packet filter
+      ansible.builtin.systemd_service:
+        name: netfilter-persistent
+        state: started
+
+    - name: Reload filtering rules
+      ansible.builtin.systemd_service:
+        name: netfilter-persistent
+        state: restarted
