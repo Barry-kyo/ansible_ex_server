@@ -13,16 +13,16 @@
       ansible.builtin.copy:
         src: ./files/xinetd.conf
         dest: /etc/xinetd.conf
-        owner: d-ogaw25
-        group: d-ogaw25
+        owner: dsm
+        group: dsm
         mode: '0644'
 
     - name: Copy Script file
       ansible.builtin.copy:
         src: ./files/scripts
-        dest: /home/d-ogaw25
-        owner: d-ogaw25
-        group: d-ogaw25
+        dest: /home/dsm/
+        owner: dsm
+        group: dsm
         mode: '0774'
         directory_mode: "1644"
 
@@ -30,8 +30,8 @@
       ansible.builtin.copy:
         src: ./files/xinetd.d
         dest: /etc/
-        owner: d-ogaw25
-        group: d-ogaw25
+        owner: dsm
+        group: dsm
         mode: '1644'
 
     - name: Install iptables
@@ -48,16 +48,16 @@
       ansible.builtin.copy:
         src: ./files/rules.v4
         dest: /etc/iptables/rules.v4
-        owner: d-ogaw25
-        group: d-ogaw25
+        owner: dsm
+        group: dsm
         mode: '0644'
 
     - name: Copy ip6tables setting file
       ansible.builtin.copy:
         src: ./files/rules.v6
         dest: /etc/iptables/rules.v6
-        owner: d-ogaw25
-        group: d-ogaw25
+        owner: dsm
+        group: dsm
         mode: '0644'
 
     - name: Add dummy service
